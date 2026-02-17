@@ -15,23 +15,23 @@ class Client:
     def refresh_oauth2(self) -> None:
         self.oauth2_token = OAuth2Token(access_token="fresh-token", expires_at=10**10)
 
-    def request(
-        self,
-        method: str,
-        path: str,
-        *,
-        api: bool = False,
-        headers: Optional[Dict[str, str]] = None,
-    ) -> Dict[str, Any]:
+    def request(self, method: str, path: str,*,api: bool = False,headers: Optional[Dict[str, str]] = None,
+) -> Dict[str, Any]:
         if headers is None:
             headers = {}
 
         if api:
+            # Minimal fix: normalize dict token to OAuth2Token
+            if isinstance(self.oauth2_token, dict):
+                self.oauth2_token = OAuth2Token(**self.oauth2_token)
+
+            # refresh if missing or expired
             if not self.oauth2_token or (
                 isinstance(self.oauth2_token, OAuth2Token) and self.oauth2_token.expired
             ):
                 self.refresh_oauth2()
 
+            # add auth header if we have a token
             if isinstance(self.oauth2_token, OAuth2Token):
                 headers["Authorization"] = self.oauth2_token.as_header()
 
