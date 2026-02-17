@@ -17,8 +17,6 @@ This repository contains the Python assignment for the AI Training Software Engi
         ```bash
         python -m venv venv
         source venv/bin/activate  # On Windows: venv\Scripts\activate
-`
-
     2. Install dependencies:
 
     ```bash
