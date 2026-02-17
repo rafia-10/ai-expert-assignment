@@ -12,6 +12,6 @@ The `request()` method only handled `OAuth2Token` instances when checking expira
 
 The fix normalizes dictionary tokens into `OAuth2Token` instances before expiration checks. This ensures the token refresh logic and header injection work consistently for both `dict` and `OAuth2Token`.
 
-## One realistic edge case / test not covered
+## One realistic edge case / not covered in tests
 
 A dictionary missing required keys (`access_token` or `expires_at`) would raise a `TypeError` during normalization. This case is not currently tested.
